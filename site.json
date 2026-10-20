@@ -1,0 +1,26 @@
+{
+  "contractVersion": "1.0.0",
+  "pages": {
+    "/": "pages/index.html",
+    "/leistungen/": "pages/leistungen.html",
+    "/team/": "pages/team.html",
+    "/praxis/": "pages/praxis.html",
+    "/kontakt/": "pages/kontakt.html",
+    "/jobs/": "pages/jobs.html",
+    "/datenschutz/": "pages/datenschutz.html",
+    "/impressum/": "pages/impressum.html",
+    "/leistungen/kinderzahnheilkunde/": "pages/kinderzahnheilkunde.html",
+    "/leistungen/zahnersatz-implantate/": "pages/zahnersatz-implantate.html",
+    "/leistungen/parodontitistherapie/": "pages/parodontitistherapie.html",
+    "/leistungen/wurzelkanalbehandlung/": "pages/wurzelkanalbehandlung.html",
+    "/leistungen/angstpatienten/": "pages/angstpatienten.html",
+    "/leistungen/chirurgie/": "pages/chirurgie.html",
+    "/leistungen/prophylaxe-bleaching/": "pages/prophylaxe-bleaching.html",
+    "/leistungen/ohrakupunktur/": "pages/ohrakupunktur.html"
+  },
+  "templates": {
+    "product": "templates/product.html"
+  },
+  "mediaIds": [],
+  "externalScriptOrigins": []
+}
