@@ -3,7 +3,7 @@ const get=(id)=>document.getElementById(id);
 const copy=JSON.parse(get('site-copy')?.textContent||'{}');
 const services=JSON.parse(get('site-services')?.textContent||'[]');
 const stored=(()=>{try{return localStorage.getItem('sauer-lang')}catch{return null}})();
-let lang=location.pathname.startsWith('/ru/')?'ru':(location.pathname.startsWith('/de/')?'de':(stored==='ru'?'ru':'de'));
+let lang=stored==='ru'?'ru':'de';
 const slugs=Object.fromEntries(services.map(s=>[s.slug,s]));
 function changeLanguage(l){
  lang=l==='ru'?'ru':'de';document.documentElement.lang=lang;
@@ -17,7 +17,7 @@ function changeLanguage(l){
  const switcher=get('lang');if(switcher)switcher.innerHTML=lang==='de'?'DE <span>/ RU</span>':'<span>DE /</span> RU';
  document.title=(document.querySelector('h1')?.textContent?.trim()||'Zahnarztpraxis')+' | Familienzahnarztpraxis Svetlana Sauer';
 }
-const navList=get('nav-services');if(navList)navList.innerHTML=services.map(s=>`<a href="/?page=leistungen/${s.slug}" data-service-title="${s.slug}">${s.de}</a>`).join('');
+const navList=get('nav-services');if(navList)navList.innerHTML=services.map(s=>`<a href="/leistungen/${s.slug}/" data-service-title="${s.slug}">${s.de}</a>`).join('');
 get('lang')?.addEventListener('click',()=>changeLanguage(lang==='de'?'ru':'de'));
 get('mobile-menu')?.addEventListener('click',()=>{const nav=get('nav');const open=!nav.classList.contains('is-open');nav.classList.toggle('is-open',open);get('mobile-menu').setAttribute('aria-expanded',String(open))});
 get('nav')?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>get('nav')?.classList.remove('is-open')));
@@ -31,17 +31,4 @@ status.textContent=lang==='de'?'Ihr E-Mail-Programm wird geöffnet. Bitte senden
 window.location.href=mailto;
 });
 if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('enter');obs.unobserve(e.target)}})},{threshold:.12});document.querySelectorAll('.reveal').forEach(x=>obs.observe(x))}
-
-/* Privacy banner: choice is local; no optional tracking scripts are loaded. */
-const consentBox=get('cookie-consent');
-const privacyCopy={
- de:{title:'Ihre Privatsphäre ist uns wichtig',text:'Wir speichern nur technisch notwendige Einstellungen, etwa Ihre Sprachauswahl. Optionale Analyse ist derzeit nicht aktiv. Informationen finden Sie in unserer ',link:'Datenschutzerklärung',necessary:'Nur notwendige',all:'Alle akzeptieren'},
- ru:{title:'Ваша конфиденциальность важна для нас',text:'Мы сохраняем только необходимые настройки, например выбранный язык. Дополнительная аналитика сейчас не используется. Подробнее в ',link:'Политике конфиденциальности',necessary:'Только необходимые',all:'Принять все'}
-};
-function translatePrivacy(l){if(!consentBox)return;const t=privacyCopy[l];get('cookie-title').textContent=t.title;const p=get('cookie-explain');p.textContent=t.text;const a=document.createElement('a');a.href='/?page=datenschutz';a.textContent=t.link;p.append(a);get('cookie-necessary').textContent=t.necessary;get('cookie-accept').textContent=t.all;}
-if(consentBox){translatePrivacy(lang);const originalLanguage=changeLanguage;changeLanguage=function(l){originalLanguage(l);translatePrivacy(lang)};let choice=null;try{choice=localStorage.getItem('sauer-privacy-choice')}catch{}
-if(!choice){consentBox.hidden=false;requestAnimationFrame(()=>consentBox.classList.add('is-visible'))}
-function choosePrivacy(value){try{localStorage.setItem('sauer-privacy-choice',value)}catch{};consentBox.classList.remove('is-visible');setTimeout(()=>{consentBox.hidden=true},750)}
-get('cookie-necessary')?.addEventListener('click',()=>choosePrivacy('necessary'));get('cookie-accept')?.addEventListener('click',()=>choosePrivacy('all'));
-}
 })();
